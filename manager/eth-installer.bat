@@ -43,7 +43,7 @@ if %errorlevel% neq 0 (
 )
 
 echo Descargando EtherUtils (latest)...
-powershell -Command "Invoke-WebRequest -Uri 'http://65.109.80.126:20293/pkg/latest/@latest.zip' -OutFile '%TEMP%\etherutils.zip'"
+powershell -Command "Invoke-WebRequest -Uri 'https://etherutils.theindiebrand.es/pkg/latest/@latest.zip' -OutFile '%TEMP%\etherutils.zip'"
 
 echo Descomprimiendo EtherUtils...
 set "INSTALL_DIR=%LOCALAPPDATA%\EtherUtils"
