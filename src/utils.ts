@@ -1,3 +1,5 @@
+import { spawn } from "child_process";
+import path from "path";
 import { terminal } from "terminal-kit";
 
 export interface ProgressTask {
@@ -56,4 +58,29 @@ function wait(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export { ProgressBar, wait };
+function executeBatch(batPath: any) {
+    return new Promise((resolve, reject) => {
+        const fullPath = path.join(process.cwd(), batPath);
+        console.log(`Ejecutando: ${fullPath}`);
+
+        const batProcess = spawn("cmd.exe", ["/c", fullPath], {
+            windowsHide: false,
+            stdio: "inherit"
+        });
+
+        batProcess.on('close', (code) => {
+            if (code === 0) resolve(0);
+            else reject(new Error(`El proceso terminó con código ${code}`));
+        });
+
+        batProcess.on('error', (error) => reject(error));
+
+        setTimeout(() => {
+            batProcess.kill();
+            reject(new Error('Timeout ejecutando el batch'));
+        }, 30000);
+  });
+}
+
+
+export { ProgressBar, wait, executeBatch };

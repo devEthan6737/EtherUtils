@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import fs from 'fs/promises';
 import path from 'path';
-import { ProgressBar } from './utils';
+import { executeBatch, ProgressBar } from './utils';
 import { createTS } from './create/ts';
 import { createSeyfert } from './create/seyfert/seyfert';
 import { terminal } from 'terminal-kit';
@@ -87,5 +87,36 @@ program
         } else console.log(`No hay instalador definido para: ${pkg}`);
     });
 
+program
+    .command("uninstall")
+    .description("Desinstalar EtherUtils")
+    .action(async () => {
+        console.log("Ejecutando desinstalador...");
+
+        await executeBatch("./manager/eth-uninstaller.bat");
+        console.log("Desinstalación completada.");
+    });
+
+program
+    .command("update")
+    .description("Actualiza EtherUtils")
+    .action(async () => {
+        try {
+            console.log("Ejecutando desinstalador...");
+
+            await executeBatch("./manager/eth-uninstaller.bat");
+            console.log("Desinstalación completada.");
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            console.log("Ejecutando instalador...");
+        
+            await executeBatch("./manager/eth-installer.bat");
+            console.log("Instalación completada.");
+
+        } catch (error) {
+            console.error("Error durante la actualización:", error);
+        }
+    });
 
 program.parse();

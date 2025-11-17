@@ -38,7 +38,6 @@ if exist "%LOCALAPPDATA%\EtherUtils\" (
     echo No se encontró la carpeta de instalación en %LOCALAPPDATA%\EtherUtils
 )
 
-:: También eliminar la instalación anterior en Program Files por si existe
 if exist "C:\Program Files\EtherUtils\" (
     echo Eliminando instalación anterior de C:\Program Files\EtherUtils...
     rd /s /q "C:\Program Files\EtherUtils\" >nul 2>&1
